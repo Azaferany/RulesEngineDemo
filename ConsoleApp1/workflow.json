@@ -1,0 +1,51 @@
+[
+  {
+    "WorkflowName": "Wage",
+    "Rules": [
+      {
+        "RuleName": "10Per",
+        "Operator": "Or",
+        "Rules":[
+          {
+            "RuleName": "clienthave10per",
+            "Expression":"Client.Wage = 0.3"
+          },
+          {
+            "RuleName": "userhave10per",
+            "Expression":"User.Wage = 0.1"
+          }
+        ],
+        "Actions": {
+          "OnSuccess": {
+            "Name": "OutputExpression", 
+            "Context": {  
+              "Expression": "new WageResult (Payment.Amount * 0.1 as Wage, 5000 as Priority)"
+            }
+          }
+        }
+      },
+      {
+        "RuleName": "20Per",
+        "Operator": "Or",
+        "Rules":[
+          {
+            "RuleName": "client have 20per ",
+            "Expression":"Client.Wage = 0.2"
+          },
+          {
+            "RuleName": "user have 20per",
+            "Expression":"User.Wage = 0.2"
+          }
+        ],
+        "Actions": {
+          "OnSuccess": {
+            "Name": "OutputExpression",
+            "Context": {
+              "Expression": "new WageResult (iif(Payment.Amount * 0.2 > 5000 , 5000, Payment.Amount * 0.2)  as Wage, 2222 as Priority)"
+            }
+          }
+        }
+      }
+    ]
+  }
+] 
